@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cnbn.apollo.charging.sncmcc.zx.dao.ProductVideoDao">
+	<resultMap id="ProductVideoMap" type="com.cnbn.apollo.charging.sncmcc.zx.model.ProductVideo">
+		<id column="ID" property="id" />
+		<result column="CONTENT_ID" property="contentId" />
+		<result column="CHN_ID" property="chnId" />
+		<result column="ALBUM_ID" property="albumId" />
+		<result column="ALBUM_NAME" property="albumName" />
+		<result column="TV_ID" property="tvId" />
+		<result column="TV_NAME" property="tvName" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_TIME" property="updateTime" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.cnbn.apollo.charging.sncmcc.zx.model.ProductVideo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO PRODUCT_VIDEO (
+			CONTENT_ID,
+			CHN_ID,
+			ALBUM_ID,
+			ALBUM_NAME,
+			TV_ID,
+			TV_NAME,
+			CREATE_TIME,
+			UPDATE_TIME
+		)
+		VALUES
+		(#{contentId}, #{chnId}, #{albumId}, #{albumName}, #{tvId}, #{tvName}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="updateById" parameterType="map">
+		update PRODUCT_VIDEO
+		<set>
+			<if test="contentId!=null">CONTENT_ID=#{contentId},</if>
+			<if test="chnId!=null">CHN_ID=#{chnId},</if>
+			<if test="albumId!=null">ALBUM_ID=#{albumId},</if>
+			<if test="albumName!=null">ALBUM_NAME=#{albumName},</if>
+			<if test="tvId!=null">TV_ID=#{tvId},</if>
+			<if test="tvName!=null">TV_NAME=#{tvName},</if>
+			UPDATE_TIME=#{updateTime}
+		</set>
+		where ID=#{id}
+	</update>
+	
+	<select id="query" parameterType="map" resultMap="ProductVideoMap">
+		select * from PRODUCT_VIDEO where 1=1 
+		<if test="contentId!=null"> and CONTENT_ID=#{contentId}</if>
+		<if test="albumId!=null"> and ALBUM_ID=#{albumId}</if>
+		<if test="albumName!=null"> and ALBUM_NAME=#{albumName}</if>
+		<if test="tvId!=null"> and TV_ID=#{tvId}</if>
+		<if test="tvName!=null"> and TV_NAME=#{tvName}</if>
+		order by ID DESC
+		<if test="offset!=null"> LIMIT ${offset}, #{limit}</if>
+	</select>
+	
+</mapper>

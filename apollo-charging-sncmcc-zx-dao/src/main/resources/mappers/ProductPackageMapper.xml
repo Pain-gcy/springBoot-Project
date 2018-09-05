@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cnbn.apollo.charging.sncmcc.zx.dao.ProductPackageDao">
+	<resultMap id="ProductPackageMap" type="com.cnbn.apollo.charging.sncmcc.zx.model.ProductPackage">
+		<id column="ID" property="id" />
+		<result column="PRODUCT_ID" property="productId" />
+		<result column="SERVICE_ID" property="serviceId" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_TYPE" property="productType" />
+		<result column="PRODUCT_DESC" property="productDesc" />
+		<result column="PERIOD_VALIDITY" property="periodValidity" />
+		<result column="PRIORITY" property="priority" />
+		<result column="IS_VISIBLE" property="isVisible" />
+		<result column="IS_EFFECTIVE" property="isEffective" />
+		<result column="PRICE" property="price" />
+		<result column="IS_REORDER" property="isReOrder" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="CREATE_TIME" property="createTime" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.cnbn.apollo.charging.sncmcc.zx.model.ProductPackage" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO PRODUCT_PACKAGE (
+			PRODUCT_ID,
+			SERVICE_ID,
+			PRODUCT_NAME,
+			PRODUCT_TYPE,
+			PRODUCT_DESC,
+			PERIOD_VALIDITY,
+			PRIORITY,
+			IS_VISIBLE,
+			IS_EFFECTIVE,
+			PRICE,
+			IS_REORDER,
+			UPDATE_TIME,
+			CREATE_TIME
+		)
+		VALUES
+		(#{productId}, #{serviceId}, #{productName}, #{productType}, #{productDesc}, #{periodValidity}, #{priority}, #{isVisible}, #{isEffective}, #{price}, #{isReOrder}, #{updateTime}, #{createTime})
+	</insert>
+	
+	<update id="updateById" parameterType="map">
+		update PRODUCT_PACKAGE
+		<set>
+			<if test="productId!=null">PRODUCT_ID=#{productId},</if>
+			<if test="serviceId!=null">SERVICE_ID=#{serviceId},</if>
+			<if test="productName!=null">PRODUCT_NAME=#{productName},</if>
+			<if test="productType!=null">PRODUCT_TYPE=#{productType},</if>
+			<if test="productDesc!=null">PRODUCT_DESC=#{productDesc},</if>
+			<if test="periodValidity!=null">PERIOD_VALIDITY=#{periodValidity},</if>
+			<if test="priority!=null">PRIORITY=#{priority},</if>
+			<if test="isEffective!=null">IS_EFFECTIVE=#{isEffective},</if>
+			<if test="price!=null">PRICE=#{price},</if>
+			<if test="isReOrder!=null">IS_REORDER=#{isReOrder},</if>
+			UPDATE_TIME=#{updateTime}
+		</set>
+		where ID=#{id}
+	</update>
+	
+	<update id="updateByProductId" parameterType="map">
+		update PRODUCT_PACKAGE
+		<set>
+			<if test="productId!=null">PRODUCT_ID=#{productId},</if>
+			<if test="serviceId!=null">SERVICE_ID=#{serviceId},</if>
+			<if test="pproductName!=null">PRODUCT_NAME=#{productName},</if>
+			<if test="productType!=null">PRODUCT_TYPE=#{productType},</if>
+			<if test="productDesc!=null">PRODUCT_DESC=#{productDesc},</if>
+			<if test="periodValidity!=null">PERIOD_VALIDITY=#{periodValidity},</if>
+			<if test="priority!=null">PRIORITY=#{priority},</if>
+			<if test="isEffective!=null">IS_EFFECTIVE=#{isEffective},</if>
+			<if test="price!=null">PRICE=#{price},</if>
+			<if test="isReOrder!=null">IS_REORDER=#{isReOrder},</if>
+			UPDATE_TIME=#{updateTime}
+		</set>
+		where PRODUCT_ID=#{productId}
+	</update>
+	
+	<select id="query" parameterType="map" resultMap="ProductPackageMap">
+		select * from PRODUCT_PACKAGE where 1=1 
+		<if test="productId!=null"> and PRODUCT_ID=#{productId}</if>
+		<if test="isEffective!=null"> and IS_EFFECTIVE=#{isEffective}</if>
+		<if test="isVisible!=null"> and IS_VISIBLE=#{isVisible}</if>
+		order by ID DESC
+		<if test="offset!=null"> LIMIT ${offset}, #{limit}</if>
+	</select>
+	
+	<select id="queryByProductId" parameterType="map" resultMap="ProductPackageMap">
+		select * from PRODUCT_PACKAGE where PRODUCT_ID=#{productId}
+		<if test="isEffective!=null"> and IS_EFFECTIVE=#{isEffective}</if>
+		<if test="isVisible!=null"> and IS_VISIBLE=#{isVisible}</if>
+	</select>
+	
+</mapper>

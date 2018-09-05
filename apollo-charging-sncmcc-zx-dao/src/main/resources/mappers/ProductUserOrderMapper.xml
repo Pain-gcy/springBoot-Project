@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cnbn.apollo.charging.sncmcc.zx.dao.ProductUserOrderDao">
+	<resultMap id="ProductUserOrderMap" type="com.cnbn.apollo.charging.sncmcc.zx.model.ProductUserOrder">
+		<id column="ID" property="id" />
+		<result column="USER_ID" property="userId" />
+		<result column="ORDER_ID" property="orderId" />
+		<result column="TRANS_ID" property="transId" />
+		<result column="PRODUCT_ID" property="productId" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PROMOTION_ID" property="promotionId" />
+		<result column="PROMOTION_TYPE" property="promotionType" />
+		<result column="CONTENT_ID" property="contentId" />
+		<result column="PHONE_NUMBER" property="phoneNumber" />
+		<result column="PRICE" property="price" />
+		<result column="PRODUCT_COUNT" property="productCount" />
+		<result column="PAY_MODE" property="payMode" />
+		<result column="ORDER_TYPE" property="orderType" />
+		<result column="MAC" property="mac" />
+		<result column="CHN_ID" property="chnId" />
+		<result column="ALBUM_ID" property="albumId" />
+		<result column="ALBUM_NAME" property="albumName" />
+		<result column="TV_ID" property="tvId" />
+		<result column="TV_NAME" property="tvName" />
+		<result column="TV_SET" property="tvSet" />
+		<result column="EFFECTIVE_TIME" property="effectiveTime" />
+		<result column="EXPIRED_TIME" property="expiredTime" />
+		<result column="PAY_TIME" property="payTime" />
+		<result column="STATUS" property="status" />
+		<result column="QR_CODE" property="qrCode" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_TIME" property="updateTime" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.cnbn.apollo.charging.sncmcc.zx.model.ProductUserOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO PRODUCT_USER_ORDER (
+			USER_ID,
+			ORDER_ID,
+			TRANS_ID,
+			PRODUCT_ID,
+			PRODUCT_NAME,
+			PROMOTION_ID,
+			PROMOTION_TYPE,
+			CONTENT_ID,
+			PHONE_NUMBER,
+			PRICE,
+			PRODUCT_COUNT,
+			PAY_MODE,
+			ORDER_TYPE,
+			MAC,
+			CHN_ID,
+			ALBUM_ID,
+			ALBUM_NAME,
+			TV_ID,
+			TV_NAME,
+			TV_SET,
+			EFFECTIVE_TIME,
+			EXPIRED_TIME,
+			PAY_TIME,
+			STATUS,
+			QR_CODE,
+			CREATE_TIME,
+			UPDATE_TIME
+		)
+		VALUES
+		(#{userId}, #{orderId}, #{transId}, #{productId}, #{productName}, #{promotionId}, #{promotionType}, #{contentId}, #{phoneNumber}, #{price}, #{productCount}, 
+		 #{payMode}, #{orderType}, #{mac}, #{chnId}, #{albumId}, #{albumName}, #{tvId}, #{tvName}, #{tvSet}, #{effectiveTime}, #{expiredTime}, #{payTime}, #{status}, #{qrCode}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="updateById" parameterType="map">
+		update PRODUCT_USER_ORDER
+		<set>
+			<if test="userId!=null">USER_ID=#{userId},</if>
+			<if test="orderId!=null">ORDER_ID=#{orderId},</if>
+			<if test="transId!=null">TRANS_ID=#{transId},</if>
+			<if test="productId!=null">PRODUCT_ID=#{productId},</if>
+			<if test="productName!=null">PRODUCT_NAME=#{productName},</if>
+			<if test="promotionId!=null">PROMOTION_ID=#{promotionId},</if>
+			<if test="promotionType!=null">PROMOTION_TYPE=#{promotionType},</if>
+			<if test="contentId!=null">CONTENT_ID=#{contentId},</if>
+			<if test="phoneNumber!=null">PHONE_NUMBER=#{phoneNumber},</if>
+			<if test="price!=null">PRICE=#{price},</if>
+			<if test="productCount!=null">PRODUCT_COUNT=#{productCount},</if>
+			<if test="payMode!=null">PAY_MODE=#{payMode},</if>
+			<if test="orderType!=null">ORDER_TYPE=#{orderType},</if>
+			<if test="mac!=null">MAC=#{mac},</if>
+			<if test="chnId!=null">CHN_ID=#{chnId},</if>
+			<if test="albumId!=null">ALBUM_ID=#{albumId},</if>
+			<if test="albumName!=null">ALBUM_NAME=#{albumName},</if>
+			<if test="tvId!=null">TV_ID=#{tvId},</if>
+			<if test="tvName!=null">TV_NAME=#{tvName},</if>
+			<if test="tvSet!=null">TV_SET=#{tvSet},</if>
+			<if test="effectiveTime!=null">EFFECTIVE_TIME=#{effectiveTime},</if>
+			<if test="expiredTime!=null">EXPIRED_TIME=#{expiredTime},</if>
+			<if test="payTime!=null">PAY_TIME=#{payTime},</if>
+			<if test="status!=null">STATUS=#{status},</if>
+			<if test="qrCode!=null">QR_CODE=#{qrCode},</if>
+			UPDATE_TIME=#{updateTime}
+		</set>
+		where ID=#{id}
+	</update>
+
+	<update id="updateCancelOrder" parameterType="map">
+		update PRODUCT_USER_ORDER
+		<set>
+			<if test="cancelStatus!=null">STATUS=#{cancelStatus},</if>
+			<if test="expiredTime!=null">EXPIRED_TIME=#{expiredTime},</if>
+			UPDATE_TIME=#{updateTime}
+		</set>
+		where USER_ID=#{userId} and PRODUCT_ID=#{productId} and STATUS=#{status}
+	</update>
+	
+	<select id="query" parameterType="map" resultMap="ProductUserOrderMap">
+		select * from PRODUCT_USER_ORDER where 1=1 
+		<if test="userId!=null"> and USER_ID=#{userId}</if>
+		<if test="orderId!=null"> and ORDER_ID=#{orderId}</if>
+		<if test="transId!=null"> and TRANS_ID=#{transId}</if>
+		<if test="productId!=null"> and PRODUCT_ID=#{productId}</if>
+		<if test="productName!=null"> and PRODUCT_NAME=#{productName}</if>
+		<if test="promotionId!=null"> and PROMOTION_ID=#{promotionId}</if>
+		<if test="promotionType!=null"> and PROMOTION_TYPE=#{promotionType}</if>
+		<if test="contentId!=null"> and CONTENT_ID=#{contentId}</if>
+		<if test="phoneNumber!=null"> and PHONE_NUMBER=#{phoneNumber}</if>
+		<if test="price!=null"> and PRICE=#{price}</if>
+		<if test="productCount!=null"> and PRODUCT_COUNT=#{productCount}</if>
+		<if test="payMode!=null"> and PAY_MODE=#{payMode}</if>
+		<if test="orderType!=null"> and ORDER_TYPE=#{orderType}</if>
+		<if test="mac!=null"> and MAC=#{mac}</if>
+		<if test="chnId!=null"> and CHN_ID=#{chnId}</if>
+		<if test="albumId!=null"> and ALBUM_ID=#{albumId}</if>
+		<if test="albumName!=null"> and ALBUM_NAME=#{albumName}</if>
+		<if test="tvId!=null"> and TV_ID=#{tvId}</if>
+		<if test="tvName!=null"> and TV_NAME=#{tvName}</if>
+		<if test="effectiveTime!=null"> and EFFECTIVE_TIME &lt;= #{effectiveTime}</if>
+		<if test="expiredTime!=null"> and (EXPIRED_TIME &gt; #{expiredTime} or EXPIRED_TIME is null or EXPIRED_TIME='')</if>
+		<if test="payTime!=null"> and PAY_TIME=#{payTime}</if>
+		<if test="status!=null"> and STATUS in <foreach item="item" index="index" collection="status" open="(" separator="," close=")">#{item}</foreach></if>
+		order by ID DESC
+		<if test="offset!=null"> LIMIT ${offset}, #{limit}</if>
+	</select>
+
+	<select id="queryOne" parameterType="map" resultMap="ProductUserOrderMap">
+		select * from PRODUCT_USER_ORDER where 1=1
+		<if test="userId!=null"> and USER_ID=#{userId} </if>
+		<if test="productId!=null">AND PRODUCT_ID=#{productId} </if>
+		order by EFFECTIVE_TIME DESC LIMIT 1
+	</select>
+
+	<select id="total" parameterType="map" resultType="int">
+		select count(1) from PRODUCT_USER_ORDER where 1=1
+		<if test="userId!=null"> and USER_ID=#{userId}</if>
+		<if test="orderId!=null"> and ORDER_ID=#{orderId}</if>
+		<if test="transId!=null"> and TRANS_ID=#{transId}</if>
+		<if test="productId!=null"> and PRODUCT_ID=#{productId}</if>
+		<if test="productName!=null"> and PRODUCT_NAME=#{productName}</if>
+		<if test="promotionId!=null"> and PROMOTION_ID=#{promotionId}</if>
+		<if test="promotionType!=null"> and PROMOTION_TYPE=#{promotionType}</if>
+		<if test="contentId!=null"> and CONTENT_ID=#{contentId}</if>
+		<if test="phoneNumber!=null"> and PHONE_NUMBER=#{phoneNumber}</if>
+		<if test="price!=null"> and PRICE=#{price}</if>
+		<if test="productCount!=null"> and PRODUCT_COUNT=#{productCount}</if>
+		<if test="payMode!=null"> and PAY_MODE=#{payMode}</if>
+		<if test="orderType!=null"> and ORDER_TYPE=#{orderType}</if>
+		<if test="mac!=null"> and MAC=#{mac}</if>
+		<if test="chnId!=null"> and CHN_ID=#{chnId}</if>
+		<if test="albumId!=null"> and ALBUM_ID=#{albumId}</if>
+		<if test="albumName!=null"> and ALBUM_NAME=#{albumName}</if>
+		<if test="tvId!=null"> and TV_ID=#{tvId}</if>
+		<if test="tvName!=null"> and TV_NAME=#{tvName}</if>
+		<if test="effectiveTime!=null"> and EFFECTIVE_TIME &lt;= #{effectiveTime}</if>
+		<if test="expiredTime!=null"> and (EXPIRED_TIME &gt; #{expiredTime} or EXPIRED_TIME is null or EXPIRED_TIME='')</if>
+		<if test="payTime!=null"> and PAY_TIME=#{payTime}</if>
+		<if test="status!=null"> and STATUS in <foreach item="item" index="index" collection="status" open="(" separator="," close=")">#{item}</foreach></if>
+	</select>
+	
+	<select id="queryById" parameterType="int" resultMap="ProductUserOrderMap">
+		select * from PRODUCT_USER_ORDER where ID=#{id}
+	</select>
+	
+</mapper>
